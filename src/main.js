@@ -2,16 +2,30 @@ import { argv } from "process";
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const readline = require('readline');
-const rl = readline.createInterface(process.stdin, process.stdout);
+
+import * as path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const os = require('os');
+const homeDir = os.homedir();
+let workingDir = __dirname;
+
+import { chdir, cwd } from 'process';
+chdir(homeDir);
+workingDir = cwd();
 
 const username = argv[2].split('=')[1];
 console.log(`Welcome to the File Manager, ${username}!`);
-console.log(`You are currently in path_to_working_directory ${username}`);
+console.log(`You are currently in ${workingDir}`);
 
+const rl = readline.createInterface(process.stdin, process.stdout);
 // rl.question(`Welcome to the File Manager, ${username}!\n`, (null) => {
  
 rl.on('line', (command) => {
-    rl.setPrompt(`You are currently in path_to_working_directory\n`);
+    rl.setPrompt(`${os.EOL}You are currently in ${workingDir}${os.EOL}`);
         if (command === '.exit') {
             rl.close();
         } else {
@@ -22,7 +36,7 @@ rl.on('line', (command) => {
 // });
 
 rl.on('close', () => {
-    console.log(`Thank you for using File Manager, ${username}!`)
+    console.log(`${os.EOL}Thank you for using File Manager, ${username}!`)
 });
 
 
