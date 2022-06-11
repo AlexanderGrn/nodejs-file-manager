@@ -3,19 +3,18 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const readline = require('readline');
 
-import * as path from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// import * as path from 'path';
+// import { fileURLToPath } from 'url';
+// import { dirname } from 'path';
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
 
 const os = require('os');
 const homeDir = os.homedir();
-let workingDir = __dirname;
 
 import { chdir, cwd } from 'process';
 chdir(homeDir);
-workingDir = cwd();
+let workingDir = cwd();
 
 const username = argv[2].split('=')[1];
 console.log(`Welcome to the File Manager, ${username}!`);
