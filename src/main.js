@@ -12,8 +12,7 @@ const __dirname = dirname(__filename);
 import { list } from './nav/list.js';
 import { up } from './nav/up.js';
 import { cd } from './nav/cd.js';
-
-
+import { eol } from './os/eol.js';
 
 const os = require('os');
 const homeDir = os.homedir();
@@ -62,6 +61,15 @@ rl.on('line', (command) => {
                 let input = command.split(' ');
                 cd(input[1]);
                 workingDir = cwd();
+            } else if (command.startsWith('os ')) {
+                let input = command.split(' ');
+                switch (input[1]) {
+                    case '--EOL':
+                    console.log(JSON.stringify(eol()));
+                        break;
+                    
+                    default: console.error('Invalid input');
+                }
             } else {
                 console.error('Invalid input');
             }
