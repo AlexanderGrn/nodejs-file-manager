@@ -41,7 +41,6 @@ rl.on('line', (command) => {
     if (command === '.exit') {
         rl.close();
     } else {
-        let input = command.split(' ');
         // switch (command) {
         //     case 'list':
         //         list(workingDir);
@@ -54,16 +53,23 @@ rl.on('line', (command) => {
         //         break;
         //     default: console.error('Invalid input');
         // }
-        if (command === 'list') {
-            list(workingDir);
-        } else if (command === 'up') {
-            workingDir = up(workingDir);
-        } else if (command.startsWith('cd ')) {
-            console.log('right command ' + command);
-        } else {
-            console.error('Invalid input');
+        try {
+            if (command === 'list') {
+                list(workingDir);
+            } else if (command === 'up') {
+                workingDir = up(workingDir);
+            } else if (command.startsWith('cd ')) {
+                let input = command.split(' ');
+                cd(input[1]);
+                workingDir = cwd();
+            } else {
+                console.error('Invalid input');
+            }
+        } catch (err) {
+                console.error(err.message);
+                rl.setPrompt(`${os.EOL}You are currently in ${workingDir}${os.EOL}`);
+                setTimeout(() => rl.prompt(), 700);
         }
-
         rl.setPrompt(`${os.EOL}You are currently in ${workingDir}${os.EOL}`);
         setTimeout(() => rl.prompt(), 700);
     }
