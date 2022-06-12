@@ -1,4 +1,4 @@
-import { argv } from "process";
+import { argv } from 'process';
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const readline = require('readline');
@@ -10,6 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 import { list } from './nav/list.js';
+import { up } from './nav/up.js';
 
 
 
@@ -46,11 +47,16 @@ rl.on('line', (command) => {
             //     }
             // }
             switch (command) {
-                case 'list': list(workingDir);
+                case 'list':
+                    list(workingDir);
+                    break;
+                case 'up':
+                    workingDir = up(workingDir);
                     break;
                 default: console.error('Invalid input');
             }
-            
+
+            rl.setPrompt(`${os.EOL}You are currently in ${workingDir}${os.EOL}`);
             setTimeout(() => rl.prompt(), 700);
         }
     });
