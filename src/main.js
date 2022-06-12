@@ -14,6 +14,8 @@ import { cd } from './nav/cd.js';
 import { eol } from './os/eol.js';
 import { cpus } from './os/cpus.js';
 import { homedir } from './os/homedir.js';
+import { username } from './os/username.js';
+import { architecture } from './os/architecture.js';
 
 const os = require('os');
 // const homeDir = os.homedir();
@@ -22,8 +24,8 @@ import { chdir, cwd } from 'process';
 chdir(homedir());
 let workingDir = cwd();
 
-const username = argv[2].split('=')[1];
-console.log(`Welcome to the File Manager, ${username}!`);
+const startUsername = argv[2].split('=')[1];
+console.log(`Welcome to the File Manager, ${startUsername}!`);
 console.log(`You are currently in ${workingDir}`);
 
 const rl = readline.createInterface(process.stdin, process.stdout);
@@ -68,6 +70,12 @@ rl.on('line', (command) => {
                     case '--homedir':
                         console.log(homedir());
                         break;
+                    case '--username':
+                        console.log(username());
+                        break;
+                    case '--architecture':
+                        architecture();
+                        break;
                     default: console.error('Invalid input');
                 }
             } else {
@@ -85,5 +93,5 @@ rl.on('line', (command) => {
 // });
 
 rl.on('close', () => {
-    console.log(`${os.EOL}Thank you for using File Manager, ${username}!`)
+    console.log(`${os.EOL}Thank you for using File Manager, ${startUsername}!`)
 });
