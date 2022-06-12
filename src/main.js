@@ -11,6 +11,7 @@ const __dirname = dirname(__filename);
 
 import { list } from './nav/list.js';
 import { up } from './nav/up.js';
+import { cd } from './nav/cd.js';
 
 
 
@@ -33,33 +34,40 @@ console.log(`You are currently in ${workingDir}`);
 
 const rl = readline.createInterface(process.stdin, process.stdout);
 // rl.question(`Welcome to the File Manager, ${username}!\n`, (null) => {
- 
+
 rl.on('line', (command) => {
     rl.setPrompt(`${os.EOL}You are currently in ${workingDir}${os.EOL}`);
-        if (command === '.exit') {
-            rl.close();
-        } else {
-            // console.log('command is ' + command);
-            
-            // for (const validCommand in commands) {
-            //     if (command === validCommand) {
-            //         validCommand;
-            //     }
-            // }
-            switch (command) {
-                case 'list':
-                    list(workingDir);
-                    break;
-                case 'up':
-                    workingDir = up(workingDir);
-                    break;
-                default: console.error('Invalid input');
-            }
 
-            rl.setPrompt(`${os.EOL}You are currently in ${workingDir}${os.EOL}`);
-            setTimeout(() => rl.prompt(), 700);
+    if (command === '.exit') {
+        rl.close();
+    } else {
+        let input = command.split(' ');
+        // switch (command) {
+        //     case 'list':
+        //         list(workingDir);
+        //         break;
+        //     case 'up':
+        //         workingDir = up(workingDir);
+        //         break;
+        //     case ((command.startsWith('cd ')) ? 'cd' : 'not'):
+        //         console.log('right command ' + command);
+        //         break;
+        //     default: console.error('Invalid input');
+        // }
+        if (command === 'list') {
+            list(workingDir);
+        } else if (command === 'up') {
+            workingDir = up(workingDir);
+        } else if (command.startsWith('cd ')) {
+            console.log('right command ' + command);
+        } else {
+            console.error('Invalid input');
         }
-    });
+
+        rl.setPrompt(`${os.EOL}You are currently in ${workingDir}${os.EOL}`);
+        setTimeout(() => rl.prompt(), 700);
+    }
+});
 // });
 
 rl.on('close', () => {
