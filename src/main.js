@@ -3,7 +3,6 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const readline = require('readline');
 
-import * as path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
@@ -13,23 +12,19 @@ import { list } from './nav/list.js';
 import { up } from './nav/up.js';
 import { cd } from './nav/cd.js';
 import { eol } from './os/eol.js';
+import { cpus } from './os/cpus.js';
+import { homedir } from './os/homedir.js';
 
 const os = require('os');
-const homeDir = os.homedir();
+// const homeDir = os.homedir();
 
 import { chdir, cwd } from 'process';
-chdir(homeDir);
+chdir(homedir());
 let workingDir = cwd();
-
-// workingDir = __dirname;
 
 const username = argv[2].split('=')[1];
 console.log(`Welcome to the File Manager, ${username}!`);
 console.log(`You are currently in ${workingDir}`);
-
-// const commands = {
-//     list: list(workingDir),
-// }
 
 const rl = readline.createInterface(process.stdin, process.stdout);
 // rl.question(`Welcome to the File Manager, ${username}!\n`, (null) => {
@@ -67,7 +62,12 @@ rl.on('line', (command) => {
                     case '--EOL':
                     console.log(JSON.stringify(eol()));
                         break;
-                    
+                    case '--cpus':
+                        cpus();
+                        break;
+                    case '--homedir':
+                        console.log(homedir());
+                        break;
                     default: console.error('Invalid input');
                 }
             } else {
@@ -87,6 +87,3 @@ rl.on('line', (command) => {
 rl.on('close', () => {
     console.log(`${os.EOL}Thank you for using File Manager, ${username}!`)
 });
-
-
-
